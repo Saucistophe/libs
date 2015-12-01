@@ -1,0 +1,11 @@
+{
+    "nodes": {
+        "A": {
+            "type": "Perlin",
+            "properties": {
+            }
+        }
+    },
+    "parents": {},
+    "colorMapNode": "A"
+}

@@ -1,0 +1,23 @@
+{
+    "nodes": {
+        "A": {
+            "type": "Blur",
+            "properties": {
+                "radius": 1.0,
+                "sampleRadius": 2
+            }
+        },
+        "B": {
+            "type": "Voronoi",
+            "properties": {
+                "seamless": true,
+                "randomColor": true,
+                "numberfPoints": 500
+            }
+        }
+    },
+    "parents": {
+        "A": ["B"]
+    },
+    "colorMapNode": "A"
+}
