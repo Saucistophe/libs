@@ -1,7 +1,6 @@
 package org.saucistophe.exceptions;
 
 /**
- @author Christophe
  */
 public class FormatException extends Exception
 {

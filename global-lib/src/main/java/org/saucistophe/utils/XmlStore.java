@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 /**
  An utility class to save/load beans as xml.
-
- @author Christophe
  */
 public class XmlStore
 {

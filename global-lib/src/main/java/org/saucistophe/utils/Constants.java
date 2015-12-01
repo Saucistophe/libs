@@ -4,8 +4,6 @@ import com.itextpdf.text.Font;
 
 /**
  * A repository class for every constant.
- *
- * @author Christophe
  */
 public class Constants
 {
