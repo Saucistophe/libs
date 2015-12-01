@@ -1,0 +1,23 @@
+{
+    "nodes": {
+        "A": {
+            "type": "ColorToNormal",
+            "properties": {
+                "colorNormalAmount": 0.3,
+                "indexed": false
+            }
+        },
+        "B": {
+            "type": "Voronoi",
+            "properties": {
+                "seamless": true,
+                "randomColor": true,
+                "numberfPoints": 500
+            }
+        }
+    },
+    "parents": {
+        "A": ["B"]
+    },
+    "colorMapNode": "A"
+}
