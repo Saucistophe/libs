@@ -35,6 +35,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -202,9 +204,11 @@ public class SettingsHandler
 						break;
 					case "int":
 					case "integer":
-						int currentValue = (int) get(settingField);
-						JSpinner spinner = new JSpinner();
-						spinner.setValue(currentValue);
+						int currentIntValue = (int) get(settingField);
+						SpinnerModel spinnerModel = new SpinnerNumberModel(currentIntValue, fieldInfo.minValue(), fieldInfo.maxValue(), 1);
+						JSpinner spinner = new JSpinner(spinnerModel);
+
+						spinner.setValue(currentIntValue);
 						actions.add(() ->
 						{
 							set(settingField, spinner.getValue());

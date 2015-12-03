@@ -31,7 +31,17 @@ public @interface SettingsField
 	public String category() default "General";
 
 	/**
-	@return The possible string value, for example for a dropdown list.
-	*/
+	 @return The possible string value, for example for a dropdown list.
+	 */
 	public String[] possibleValues() default {};
+
+	/**
+	 @return The min int value.
+	 */
+	public int minValue() default Integer.MIN_VALUE;
+
+	/**
+	 @return The min int value.
+	 */
+	public int maxValue() default Integer.MAX_VALUE;
 }
