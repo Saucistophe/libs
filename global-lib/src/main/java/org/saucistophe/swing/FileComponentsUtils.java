@@ -14,7 +14,7 @@ public class FileComponentsUtils
 	 Prompts the user to choose a file, for the given extension.
 
 	 @param fileExtension The file's wished extension. E.g. "pdf".
-	 @param defaultLocation Optionnal, the folder in which to start browsing.
+	 @param defaultLocation Optional, the folder in which to start browsing.
 	 @return A file if one was chosen, null if the user cancelled.
 	 */
 	public static File chooseFile(String fileExtension, File defaultLocation)
@@ -28,7 +28,7 @@ public class FileComponentsUtils
 		{
 			fileChooser.setCurrentDirectory(defaultLocation);
 		}
-		fileChooser.setFileFilter(new FileNameExtensionFilter("Fichiers " + fileExtension, fileExtension));
+		fileChooser.setFileFilter(new FileNameExtensionFilter(fileExtension + " files", fileExtension));
 
 		int returnVal = fileChooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION)
