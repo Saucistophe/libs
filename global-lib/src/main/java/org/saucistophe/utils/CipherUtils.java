@@ -8,8 +8,6 @@ import javax.crypto.Cipher;
 /**
  Utility class to cipher and decipher strings using the project's encryption
  algorithm.
-
- @author chcarpen
  */
 public class CipherUtils
 {
