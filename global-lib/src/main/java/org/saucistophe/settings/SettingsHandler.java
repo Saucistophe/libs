@@ -60,21 +60,21 @@ public class SettingsHandler
 		// Turn the set to a list to sort it.
 		List<Field> fieldsList = new ArrayList<>(annotatedFields);
 		fieldsList.sort((Field field1, Field field2) ->
-		{
-			// Retrieve the fields info.
-			SettingsField fieldInfo1 = field1.getAnnotation(SettingsField.class);
-			SettingsField fieldInfo2 = field2.getAnnotation(SettingsField.class);
+				{
+					// Retrieve the fields info.
+					SettingsField fieldInfo1 = field1.getAnnotation(SettingsField.class);
+					SettingsField fieldInfo2 = field2.getAnnotation(SettingsField.class);
 
-			// If the name wasn't set, get the field's declared name.
-			String actualName1 = fieldInfo1.name().isEmpty() ? field1.getName() : fieldInfo1.name();
-			String actualName2 = fieldInfo2.name().isEmpty() ? field2.getName() : fieldInfo2.name();
+					// If the name wasn't set, get the field's declared name.
+					String actualName1 = fieldInfo1.name().isEmpty() ? field1.getName() : fieldInfo1.name();
+					String actualName2 = fieldInfo2.name().isEmpty() ? field2.getName() : fieldInfo2.name();
 
-			// Elaborate a sortable string representation.
-			String sortableString1 = fieldInfo1.category() + "." + actualName1;
-			String sortableString2 = fieldInfo2.category() + "." + actualName2;
+					// Elaborate a sortable string representation.
+					String sortableString1 = fieldInfo1.category() + "." + actualName1;
+					String sortableString2 = fieldInfo2.category() + "." + actualName2;
 
-			return sortableString1.compareTo(sortableString2);
-		});
+					return sortableString1.compareTo(sortableString2);
+				});
 
 		return fieldsList;
 	}
@@ -149,10 +149,10 @@ public class SettingsHandler
 				JComboBox<?> comboBox = new JComboBox<>(settingField.getType().getEnumConstants());
 				comboBox.setSelectedItem(get(settingField));
 				actions.add(() ->
-				{
-					set(settingField, comboBox.getSelectedItem());
-					return true;
-				});
+						{
+							set(settingField, comboBox.getSelectedItem());
+							return true;
+						});
 				// Add a label then the component.
 				editionComponent = new JPanel();
 				editionComponent.add(label);
@@ -167,10 +167,10 @@ public class SettingsHandler
 						JCheckBox checkbox = new JCheckBox(labelText, (boolean) get(settingField));
 						editionComponent = checkbox;
 						actions.add(() ->
-						{
-							set(settingField, checkbox.isSelected());
-							return true;
-						});
+								{
+									set(settingField, checkbox.isSelected());
+									return true;
+								});
 						break;
 					case "string":
 						// If there are possible values, use a combobox.
@@ -178,10 +178,10 @@ public class SettingsHandler
 						{
 							JComboBox<String> comboBox = new JComboBox<>(fieldInfo.possibleValues());
 							actions.add(() ->
-							{
-								set(settingField, comboBox.getSelectedItem());
-								return true;
-							});
+									{
+										set(settingField, comboBox.getSelectedItem());
+										return true;
+									});
 							// Add a label then the component.
 							editionComponent = new JPanel();
 							editionComponent.add(label);
@@ -192,10 +192,10 @@ public class SettingsHandler
 							// Otherwise, use a simple text field.
 							JTextField textField = new JTextField((String) get(settingField));
 							actions.add(() ->
-							{
-								set(settingField, textField.getText());
-								return true;
-							});
+									{
+										set(settingField, textField.getText());
+										return true;
+									});
 							// Add a label then the component.
 							editionComponent = new JPanel();
 							editionComponent.add(label);
@@ -210,10 +210,10 @@ public class SettingsHandler
 
 						spinner.setValue(currentIntValue);
 						actions.add(() ->
-						{
-							set(settingField, spinner.getValue());
-							return true;
-						});
+								{
+									set(settingField, spinner.getValue());
+									return true;
+								});
 						// Add a label then the component.
 						editionComponent = new JPanel();
 						editionComponent.add(label);
@@ -245,35 +245,36 @@ public class SettingsHandler
 		JButton okButton = new JButton("OK");
 		{
 			okButton.addActionListener(e ->
-			{
-				for (Supplier<Boolean> action : actions)
-				{
-					action.get();
-				}
-				saveToFile();
-				// Call all callbacks on all categories.
-				Set<Method> callbacks = getSettingsCallbacks();
-				callbacks.stream().forEach(m ->
-				{
-					try
 					{
-						m.invoke(null);
-					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
-					{
-						Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
-					}
-				});
+						for (Supplier<Boolean> action : actions)
+						{
+							action.get();
+						}
+						saveToFile();
+						// Call all callbacks on all categories.
+						Set<Method> callbacks = getSettingsCallbacks();
+						callbacks.stream().forEach(m ->
+								{
+									try
+									{
+										m.invoke(null);
+									}
+									catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+									{
+										Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
+									}
+								});
 
-				dialog.dispose();
-			});
+						dialog.dispose();
+					});
 		}
 		bottomButtons.add(okButton);
 		JButton cancelButton = new JButton("Cancel");
 		{
 			cancelButton.addActionListener(e ->
-			{
-				dialog.dispose();
-			});
+					{
+						dialog.dispose();
+					});
 		}
 		bottomButtons.add(cancelButton);
 
@@ -324,7 +325,8 @@ public class SettingsHandler
 		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("settings.json")))
 		{
 			bufferedWriter.write(jsonString);
-		} catch (IOException ex)
+		}
+		catch (IOException ex)
 		{
 			// If the file can't be written, it's an error.
 			Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -347,50 +349,60 @@ public class SettingsHandler
 			@SuppressWarnings("unchecked")
 			Map<String, Map<String, Object>> dummyCategories = gson.fromJson(bufferedReader, Map.class);
 			categories = dummyCategories;
-		} catch (JsonSyntaxException exception)
+
+			// Then, for each setting, try to find its value.
+			for (Field settableField : getSettableFields())
+			{
+				SettingsField fieldInfo = settableField.getAnnotation(SettingsField.class);
+				if (categories.containsKey(fieldInfo.category()))
+				{
+					Map<String, Object> category = categories.get(fieldInfo.category());
+
+					// If the name wasn't set, get the field's declared n0ame.
+					String actualName = fieldInfo.name().isEmpty() ? settableField.getName() : fieldInfo.name();
+
+					if (category.containsKey(actualName))
+					{
+						// Deserialize from String.
+						set(settableField, toObject(settableField.getType(), (String) category.get(actualName)));
+					}
+				}
+			}
+		}
+		catch (JsonSyntaxException exception)
 		{
 			// On incorrect properties, log a warning.
 			Logger.getLogger(SettingsHandler.class.getName()).log(Level.WARNING, "Syntax error in JSON settings file.");
 			Logger.getLogger(SettingsHandler.class.getName()).log(Level.WARNING, null, exception);
-			return;
-		} catch (IOException exception)
+		}
+		catch (IOException exception)
 		{
 			// If the file is not readable, or does not exist.
 			Logger.getLogger(SettingsHandler.class.getName()).log(Level.WARNING, "Could not read JSON settings file.");
-			return;
 		}
-
-		// Then, for each setting, try to find its value.
-		for (Field settableField : getSettableFields())
+		finally
 		{
-			SettingsField fieldInfo = settableField.getAnnotation(SettingsField.class);
-			if (categories.containsKey(fieldInfo.category()))
-			{
-				Map<String, Object> category = categories.get(fieldInfo.category());
-
-				// If the name wasn't set, get the field's declared n0ame.
-				String actualName = fieldInfo.name().isEmpty() ? settableField.getName() : fieldInfo.name();
-
-				if (category.containsKey(actualName))
-				{
-					// Deserialize from String.
-					set(settableField, toObject(settableField.getType(), (String) category.get(actualName)));
-				}
-			}
+			triggerCallbacks();
 		}
+	}
 
-		// Call all callbacks on all categories.
+	/**
+	 Call all callbacks on all categories.
+	 */
+	private static void triggerCallbacks()
+	{
 		Set<Method> callbacks = getSettingsCallbacks();
 		callbacks.stream().forEach(m ->
-		{
-			try
-			{
-				m.invoke(null);
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
-			{
-				Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
-			}
-		});
+				{
+					try
+					{
+						m.invoke(null);
+					}
+					catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+					{
+						Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
+					}
+				});
 	}
 
 	/**
@@ -404,7 +416,8 @@ public class SettingsHandler
 		try
 		{
 			field.set(null, value);
-		} catch (IllegalArgumentException | IllegalAccessException ex)
+		}
+		catch (IllegalArgumentException | IllegalAccessException ex)
 		{
 			Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -421,7 +434,8 @@ public class SettingsHandler
 		try
 		{
 			return field.get(null);
-		} catch (IllegalArgumentException | IllegalAccessException ex)
+		}
+		catch (IllegalArgumentException | IllegalAccessException ex)
 		{
 			Logger.getLogger(SettingsHandler.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -431,7 +445,7 @@ public class SettingsHandler
 	/**
 	 Gets the object value from its string serialisation.
 
-	 @param clazz The class of the value to get.
+	 @param clazz       The class of the value to get.
 	 @param stringValue The string represnetation of the value.
 	 @return The corresponding deserialized value.
 	 */
