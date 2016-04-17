@@ -449,6 +449,7 @@ public class SettingsHandler
 	 @param stringValue The string represnetation of the value.
 	 @return The corresponding deserialized value.
 	 */
+	@SuppressWarnings({ "unchecked" })
 	public static Object toObject(Class clazz, String stringValue)
 	{
 		// Ignore null values.
@@ -460,7 +461,8 @@ public class SettingsHandler
 		// Handle enums.
 		if (clazz.isEnum())
 		{
-			return Enum.valueOf(clazz, stringValue);
+			Class<? extends Enum> enumType = clazz;
+			return Enum.valueOf(enumType, stringValue);
 		}
 
 		// Handle primitive types.

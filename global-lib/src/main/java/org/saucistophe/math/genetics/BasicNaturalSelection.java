@@ -35,7 +35,7 @@ public class BasicNaturalSelection
 		{
 			for (int j = i + 1; j < parents.size(); j++)
 			{
-				couples.add(new Pair(parents.get(i), parents.get(j)));
+				couples.add(new Pair<>(parents.get(i), parents.get(j)));
 			}
 		}
 
@@ -56,36 +56,36 @@ public class BasicNaturalSelection
 		// Reset all fitnesses.
 		individuals.parallelStream().forEach(i -> i.fitness = 0);
 
-		Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "New iteration. {0} Fights!", individuals.size()* (individuals.size()-1) /2);
+		Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "New iteration. {0} Fights!", individuals.size() * (individuals.size() - 1) / 2);
 		// For each possible couple:
 		getCouples(individuals).parallelStream()
-			.forEach(couple ->
-				{
-					Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "Fight begins! {0}", couple);
-					// Make the couple fight.
-					couple.left.fight(couple.right);
-					couple.right.fight(couple.left);
-					Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "Fight over!   {0}", couple);
-				});
+				.forEach(couple ->
+						{
+							Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "Fight begins! {0}", couple);
+							// Make the couple fight.
+							couple.left.fight(couple.right);
+							couple.right.fight(couple.left);
+							Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "Fight over!   {0}", couple);
+						});
 
 		Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "Fights over for this iteration.");
 
 		// Order the individuals by descending fitness.
 		individuals.sort((a, b) ->
-			{
-				return Integer.compare(b.fitness, a.fitness);
-			});
+				{
+					return Integer.compare(b.fitness, a.fitness);
+				});
 
 		// Get the list of top individual, that will act as parents for the next generation.
 		List<Individual> parents = individuals.subList(0, MIXING_FACTOR);
 
-		Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "The winner are {0}",parents);
+		Logger.getLogger(BasicNaturalSelection.class.getName()).log(Level.INFO, "The winner are {0}", parents);
 
 		// Get their children.
 		List<Individual> children = getCouples(parents)
-			.stream()
-			.map(couple -> couple.left.makeChild(couple.right))
-			.collect(Collectors.toList());
+				.stream()
+				.map(couple -> couple.left.makeChild(couple.right))
+				.collect(Collectors.toList());
 
 		// Make some room for the children.
 		individuals = individuals.subList(0, individuals.size() - children.size());
