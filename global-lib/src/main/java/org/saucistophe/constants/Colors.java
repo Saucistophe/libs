@@ -34,23 +34,4 @@ public class Colors
 		Color.decode("0xF13A13"), // Vivid Reddish Orange
 		Color.decode("0x232C16"),    // Dark Olive Green
 	};
-
-	/**
-	 The next color to get.
-	 */
-	public int index = 0;
-
-	/**
-	@return A contrasted color, and prepare for next one.
-	*/
-	public Color getNextColor()
-	{
-		Color result = KELLY_COLORS[index];
-		index++;
-		if (index >= KELLY_COLORS.length)
-		{
-			index = 0;
-		}
-		return result;
-	}
 }
