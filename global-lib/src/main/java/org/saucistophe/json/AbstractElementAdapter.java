@@ -101,6 +101,8 @@ public class AbstractElementAdapter<T extends Object> implements JsonSerializer<
 			throw new JsonParseException(new ClassNotFoundException(type));
 		}
 		JsonElement element = jsonObject.get("properties");
+		if(element == null)
+			element = new JsonObject();
 
 		return context.deserialize(element, aliasToClassMap.get(type));
 	}
