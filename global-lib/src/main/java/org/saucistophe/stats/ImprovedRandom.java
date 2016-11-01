@@ -124,6 +124,20 @@ public class ImprovedRandom extends Random
 			nextInt(256), nextInt(256), nextInt(256), alpha
 		};
 	}
+	
+	/**
+	 Returns a random HSVA array color, with the alpha specified.
+
+	 @param alpha The alpha of the color to generate.
+	 @return The random color, as a HSVA array.
+	 */
+	public float[] nextHsva(float alpha)
+	{
+		return new float[]
+		{
+			nextFloat(), nextFloat(), nextFloat(), alpha
+		};
+	}
 
 	/**
 	 Generates a random string with lowercase letters.
