@@ -1,5 +1,8 @@
 package org.saucistophe.math;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * OpenSimplex Noise in Java.
  * by Kurt Spencer
@@ -39,6 +42,10 @@ public class OpenSimplexNoise
 	private double maxGeneratedValue = 0;
 	private double sumOfGeneratedValues = 0;
 	private long numberOfGeneratedValues = 0;
+	
+	// Adjusting values.
+	public double offset = 0.;
+	public double range = 1.;
 
 	public OpenSimplexNoise()
 	{
@@ -897,25 +904,19 @@ public class OpenSimplexNoise
 			value += attn_ext1 * attn_ext1 * extrapolate(xsv_ext1, ysv_ext1, zsv_ext1, dx_ext1, dy_ext1, dz_ext1);
 		}
 
-		// Store the min, max and average value for stats purposes.
+		
 		value = value / NORM_CONSTANT_3D;
 
+		// Adjust the value according to the range and offset.
+		value = value * range + offset;
+		
+		// Store the min, max and average value for stats purposes.				 
 		minGeneratedValue = Math.min(minGeneratedValue, value);
 		maxGeneratedValue = Math.max(maxGeneratedValue, value);
 		sumOfGeneratedValues += value;
 		numberOfGeneratedValues++;
 
 		return value;
-	}
-
-	public String getStats()
-	{
-		String result = "Minimal value generated : " + minGeneratedValue;
-		result += "\nMaximal value generated : " + maxGeneratedValue;
-		result += "\nSum of generated values : " + sumOfGeneratedValues;
-		result += "\nAvg of generated values : " + sumOfGeneratedValues / numberOfGeneratedValues;
-
-		return result;
 	}
 
 	//4D OpenSimplex Noise.
@@ -2579,6 +2580,33 @@ public class OpenSimplexNoise
 	{
 		int xi = (int) x;
 		return x < xi ? xi - 1 : xi;
+	}
+	
+	public void adjustValues()
+	{
+		// The expected range is 2 (-1, +1).
+		range = 2 / (maxGeneratedValue - minGeneratedValue);
+		// The min value should, after increasing the range, reach -1.
+		offset = -1 - minGeneratedValue * range;
+		// Add a safety margin on the range.
+		range *= 0.999;
+		Logger.getLogger(OpenSimplexNoise.class.getName()).log(Level.INFO, "Adjusting values with offset {0} and range {1}.", new Object[]{offset,range});
+
+		// Reset stats.
+		minGeneratedValue = 0;
+		maxGeneratedValue = 0;
+		numberOfGeneratedValues = 0;
+		sumOfGeneratedValues = 0;
+	}
+	
+	public String getStats()
+	{
+		String result = "Minimal value generated : " + minGeneratedValue;
+		result += "\nMaximal value generated : " + maxGeneratedValue;
+		result += "\nSum of generated values : " + sumOfGeneratedValues;
+		result += "\nAvg of generated values : " + sumOfGeneratedValues / numberOfGeneratedValues;
+
+		return result;
 	}
 
 	//Gradients for 2D. They approximate the directions to the
