@@ -83,4 +83,11 @@ public class Point3F
 	{
 		return "(" + x + ", " + y + ", " + z + ")";
 	}
+
+	public void addLocal(Point3F offset)
+	{
+		x += offset.x;
+		y += offset.y;
+		z += offset.z;
+	}
 }

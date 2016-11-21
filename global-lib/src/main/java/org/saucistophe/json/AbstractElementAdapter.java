@@ -92,7 +92,11 @@ public class AbstractElementAdapter<T extends Object> implements JsonSerializer<
 			throws JsonParseException
 	{
 		JsonObject jsonObject = json.getAsJsonObject();
+		
 		// Retrieve the type.
+		JsonElement typeObject = jsonObject.get("type");
+		if( typeObject == null)
+			throw new JsonParseException("Missing type for deserialization.");
 		String type = jsonObject.get("type").getAsString();
 
 		// If the type is not found, raise an error.
