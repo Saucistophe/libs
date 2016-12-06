@@ -53,6 +53,30 @@ public class Point3F
 	{
 		return squaredDistanceTo(otherPoint.x, otherPoint.y, otherPoint.z);
 	}
+	
+	/**
+	 Returns the length from this point to the given coordinates.
+
+	 @param x The target point's x
+	 @param y The target point's y
+	 @param z The target point's z
+	 @return The distance between the two.
+	 */
+	public float distanceTo(float x, float y, float z)
+	{
+		return (float) Math.sqrt(squaredDistanceTo(x, y, z));
+	}
+	
+	/**
+	 Returns the length from this point to the given coordinates.
+
+	 @param otherPoint The target point.
+	 @return The distance between the two.
+	 */
+	public float distanceTo(Point3F otherPoint)
+	{
+		return distanceTo(otherPoint.x, otherPoint.y, otherPoint.z);
+	}
 
 	/**
 	 Returns the Manhattan length from this point to the given coordinates.
