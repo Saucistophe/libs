@@ -98,6 +98,20 @@ public class ColorUtils
 			(rgba >> 24) & 255, (rgba >> 16) & 255, (rgba >> 8) & 255, (rgba) & 255
 		});
 	}
+	
+	/**
+	 Turns an ARGB color (as an hexadecimal int) into a HSVA color.
+
+	 @param argb The 0xAARRGGBB color int.
+	 @return The HSVA color.
+	 */
+	public static float[] argbToHsva(int argb)
+	{
+		return rgbaToHsva(new int[]
+		{
+			(argb >> 16) & 255, (argb >> 8) & 255, (argb) & 255, (argb >> 24) & 255
+		});
+	}
 
 	/**
 	 Transforms a part of a vector (-1,1) to a normal map part (0-255).
