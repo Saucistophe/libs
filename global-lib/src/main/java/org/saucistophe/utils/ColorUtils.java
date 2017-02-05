@@ -67,6 +67,30 @@ public class ColorUtils
 	}
 
 	/**
+	 Turns an HSVA color (as an array of floats) into a RGBA color int.
+	 Note that the alpha value is optionnal; in which case a HSV value will turn to RGB.
+
+	 @param hsva The HSVA color array, with each float 0-1.
+	 @return The RGBA color, as an int.
+	 */
+	public static int hsvaToRgbaInt(float[] hsva)
+	{
+		return Color.HSBtoRGB(hsva[0], hsva[1], hsva[2]);
+	}
+
+	/**
+	 Turns an HSVA color (as an array of floats) into AWT Color.
+	 Note that the alpha value is optionnal; in which case a HSV value will turn to RGB.
+
+	 @param hsva The HSVA color array, with each float 0-1.
+	 @return The RGBA color, as a AWT Color.
+	 */
+	public static Color hsvaToColor(float[] hsva)
+	{
+		return new Color(Color.HSBtoRGB(hsva[0], hsva[1], hsva[2]));
+	}
+
+	/**
 	 Turns an RGBA color (as an array of int) into a HSVA color.
 	 Note that the alpha value is optionnal; in which case a RGB value will turn to HSV.
 
@@ -98,7 +122,7 @@ public class ColorUtils
 			(rgba >> 24) & 255, (rgba >> 16) & 255, (rgba >> 8) & 255, (rgba) & 255
 		});
 	}
-	
+
 	/**
 	 Turns an ARGB color (as an hexadecimal int) into a HSVA color.
 
@@ -156,14 +180,14 @@ public class ColorUtils
 	/**
 	 Merges a list of HSVA colors, returning the average color.
 	 Each point's value will make it contribute more or less to the result color.
-	
+
 	 @param colorsToMerge The list of colors to merge.
 	 @return The average of the given colors.
 	 */
 	public static float[] mergeHsvColors(List<float[]> colorsToMerge)
 	{
-		assert(!colorsToMerge.isEmpty());
-		
+		assert (!colorsToMerge.isEmpty());
+
 		// First off, if there's only one color, return it verbatim.
 		if (colorsToMerge.size() == 1)
 		{
@@ -182,7 +206,7 @@ public class ColorUtils
 
 			// Copy value and alpha as a simple average.
 			result[2] = Math.max(result[2], color[2]);
-			if(result.length >= 4)
+			if (result.length >= 4)
 				result[3] += color[3];
 		}
 
@@ -197,12 +221,12 @@ public class ColorUtils
 		}
 		result[1] = meanHsPoint.getNorm();
 		//result[2] /= numberOfPoints;
-		if(result.length >= 4)
+		if (result.length >= 4)
 			result[3] /= colorsToMerge.size();
 
 		return result;
 	}
-	
+
 	/**
 	 @param hsva1 The first color to interpolate.
 	 @param hsva2 The second color to interpolate.
@@ -240,10 +264,10 @@ public class ColorUtils
 		double newTheta = Math.atan2(newY, newX);
 		if (newTheta < 0)
 			newTheta += Math.PI * 2;
-		
+
 		result[0] = (float) (newTheta / Math.PI / 2);
 		result[1] = (float) newRho;
-				
+
 		return result;
 	}
 
@@ -263,14 +287,14 @@ public class ColorUtils
 	 (http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/).
 
 	 @param temperature The temperature of an ideal black body, in Kelvins;
-	 @param alpha If true, the return value will be RGBA instead of RGB.
+	 @param alpha       If true, the return value will be RGBA instead of RGB.
 	 @return The corresponding RGB color.
 	 */
 	public static int[] getRgbFromTemperature(double temperature, boolean alpha)
 	{
 		// Temperature must fit between 1000 and 40000 degrees
-		temperature = MathUtils.clamp(temperature,1000,40000);
-		
+		temperature = MathUtils.clamp(temperature, 1000, 40000);
+
 		// All calculations require tmpKelvin \ 100, so only do the conversion once
 		temperature /= 100;
 
@@ -283,7 +307,7 @@ public class ColorUtils
 		{
 			// Note: the R-squared value for this approximation is .988
 			red = (int) (329.698727446 * (Math.pow(temperature - 60, -0.1332047592)));
-			red = MathUtils.clamp(red,0,255);
+			red = MathUtils.clamp(red, 0, 255);
 		}
 
 		// Second: green
@@ -294,7 +318,7 @@ public class ColorUtils
 			// Note: the R-squared value for this approximation is .987
 			green = (int) (288.1221695283 * (Math.pow(temperature - 60, -0.0755148492)));
 
-		green = MathUtils.clamp(green,0,255);
+		green = MathUtils.clamp(green, 0, 255);
 
 		// Third: blue
 		if (temperature >= 66)
@@ -306,7 +330,7 @@ public class ColorUtils
 			// Note: the R-squared value for this approximation is .998
 			blue = (int) (138.5177312231 * Math.log(temperature - 10) - 305.0447927307);
 
-			blue = MathUtils.clamp(blue,0,255);
+			blue = MathUtils.clamp(blue, 0, 255);
 		}
 
 		if (alpha)
