@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- Computes the best way to spread out N cannons on a machine gun. Currently practical for N < 600.
+ Computes the best way to spread out N cannons on a machine gun. Currently practical for N lesser than 600.
  */
 public class MachineGunAlgorithm
 {
