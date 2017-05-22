@@ -1,0 +1,56 @@
+package org.saucistophe.logs;
+
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.SimpleFormatter;
+
+public class ColorConsoleHandler extends ConsoleHandler
+{
+	protected static final String COLOR_RESET = "\u001b[0m";
+	protected static final String COLOR_SEVERE = "\u001b[91m";
+	protected static final String COLOR_WARNING = "\u001b[93m";
+	protected static final String COLOR_INFO = "\u001b[32m";
+	protected static final String COLOR_CONFIG = "\u001b[94m";
+	protected static final String COLOR_FINE = "\u001b[36m";
+	protected static final String COLOR_FINER = "\u001b[35m";
+	protected static final String COLOR_FINEST = "\u001b[90m";
+
+	public ColorConsoleHandler()
+	{
+		super();
+		registerFormatter();
+	}
+
+	private void registerFormatter()
+	{
+		setFormatter(new SimpleFormatter()
+		{
+			@Override
+			public synchronized String format(LogRecord record)
+			{
+				String prefix;
+				Level level = record.getLevel();
+				if (level == Level.SEVERE)
+					prefix = COLOR_SEVERE;
+				else if (level == Level.WARNING)
+					prefix = COLOR_WARNING;
+				else if (level == Level.INFO)
+					prefix = COLOR_INFO;
+				else if (level == Level.CONFIG)
+					prefix = COLOR_CONFIG;
+				else if (level == Level.FINE)
+					prefix = COLOR_FINE;
+				else if (level == Level.FINER)
+					prefix = COLOR_FINER;
+				else if (level == Level.FINEST)
+					prefix = COLOR_FINEST;
+				else
+					prefix = COLOR_SEVERE;
+
+				String rawMessage = super.format(record);
+				return prefix + rawMessage + COLOR_RESET;
+			}
+		});
+	}
+}
