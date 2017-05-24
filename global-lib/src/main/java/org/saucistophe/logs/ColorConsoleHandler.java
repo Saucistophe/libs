@@ -8,13 +8,13 @@ import java.util.logging.SimpleFormatter;
 public class ColorConsoleHandler extends ConsoleHandler
 {
 	protected static final String COLOR_RESET = "\u001b[0m";
-	protected static final String COLOR_SEVERE = "\u001b[91m";
-	protected static final String COLOR_WARNING = "\u001b[93m";
-	protected static final String COLOR_INFO = "\u001b[32m";
-	protected static final String COLOR_CONFIG = "\u001b[94m";
-	protected static final String COLOR_FINE = "\u001b[36m";
-	protected static final String COLOR_FINER = "\u001b[35m";
-	protected static final String COLOR_FINEST = "\u001b[90m";
+	protected static final String COLOR_SEVERE = "\u001b[31;1m";
+	protected static final String COLOR_WARNING = "\u001b[33;1m";
+	protected static final String COLOR_INFO = "\u001b[37m";
+	protected static final String COLOR_CONFIG = "\u001b[34;1m";
+	protected static final String COLOR_FINE = "\u001b[30;1m";
+	protected static final String COLOR_FINER = "\u001b[30;1m";
+	protected static final String COLOR_FINEST = "\u001b[30;1m";
 
 	public ColorConsoleHandler()
 	{
