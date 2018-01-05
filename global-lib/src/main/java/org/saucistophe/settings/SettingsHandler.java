@@ -380,13 +380,13 @@ public class SettingsHandler
 		catch (JsonSyntaxException exception)
 		{
 			// On incorrect properties, log a warning.
-			Logger.getLogger(SettingsHandler.class.getName()).log(Level.WARNING, "Syntax error in JSON settings file.");
-			Logger.getLogger(SettingsHandler.class.getName()).log(Level.WARNING, null, exception);
+			LOGGER.log(Level.WARNING, "Syntax error in JSON settings file.");
+			LOGGER.log(Level.WARNING, null, exception);
 		}
 		catch (IOException exception)
 		{
 			// If the file is not readable, or does not exist.
-			Logger.getLogger(SettingsHandler.class.getName()).log(Level.WARNING, "Could not read JSON settings file.");
+			LOGGER.log(Level.WARNING, "Could not read JSON settings file.");
 		}
 		finally
 		{

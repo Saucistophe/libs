@@ -20,7 +20,8 @@ import java.util.logging.Logger;
  */
 public class OpenSimplexNoise
 {
-
+	private static final Logger LOG = Logger.getLogger(OpenSimplexNoise.class.getName());
+	
 	private static final double STRETCH_CONSTANT_2D = -0.211324865405187;    //(1/Math.sqrt(2+1)-1)/2;
 	private static final double SQUISH_CONSTANT_2D = 0.366025403784439;      //(Math.sqrt(2+1)-1)/2;
 	private static final double STRETCH_CONSTANT_3D = -1.0 / 6;              //(1/Math.sqrt(3+1)-1)/3;
@@ -2590,7 +2591,7 @@ public class OpenSimplexNoise
 		offset = -1 - minGeneratedValue * range;
 		// Add a safety margin on the range.
 		range *= 0.999;
-		Logger.getLogger(OpenSimplexNoise.class.getName()).log(Level.INFO, "Adjusting values with offset {0} and range {1}.", new Object[]{offset,range});
+		LOG.log(Level.FINEST, "Adjusting values with offset {0} and range {1}.", new Object[]{offset,range});
 
 		// Reset stats.
 		minGeneratedValue = 0;

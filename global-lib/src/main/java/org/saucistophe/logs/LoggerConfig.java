@@ -36,7 +36,7 @@ public class LoggerConfig
 		// Load settings from the settings file first off, to allow changing sensitivie things like the format.
 		SettingsHandler.readFromFile();
 
-		System.out.println("Initializing log system.");
+		System.out.println(String.format("Initializing log system (%s/%s)",globalLoggerLevel, localLoggerLevel));
 		System.setProperty("java.util.logging.SimpleFormatter.format", LOG_FORMAT);
 
 		// Purge all existing configuration.
@@ -52,7 +52,7 @@ public class LoggerConfig
 		ColorConsoleHandler handler = new ColorConsoleHandler();
 		handler.setLevel(Level.ALL);
 		globalLogger.addHandler(handler);
-
+		
 		// Log to file.
 		if (LOG_TO_FILE)
 		{
