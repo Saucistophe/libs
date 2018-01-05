@@ -21,7 +21,7 @@ public class LoggerConfig
 	public static String localLoggerLevel = "FINE";
 
 	@SettingsField(category = "Logs", name = "Log format string")
-	public static String LOG_FORMAT = "%1$tH:%1$tM:%1$tS.%1$tL [%4$-7s] %5$s%6$s (%2$s)%n";
+	public static String LOG_FORMAT = "%1$tH:%1$tM:%1$tS.%1$tL [%4$s] %2$s %5$s%6$s%n";
 
 	@SettingsField(category = "Logs", name = "Log to a file")
 	public static boolean LOG_TO_FILE = false;
@@ -36,8 +36,6 @@ public class LoggerConfig
 		// Load settings from the settings file first off, to allow changing sensitivie things like the format.
 		SettingsHandler.readFromFile();
 
-		
-		
 		System.out.println(String.format("Initializing log system (%s/%s)",globalLoggerLevel, localLoggerLevel));
 		System.setProperty("java.util.logging.SimpleFormatter.format", LOG_FORMAT);
 
@@ -54,7 +52,7 @@ public class LoggerConfig
 		ColorConsoleHandler handler = new ColorConsoleHandler();
 		handler.setLevel(Level.ALL);
 		globalLogger.addHandler(handler);
-		
+
 		// Log to file.
 		if (LOG_TO_FILE)
 		{

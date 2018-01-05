@@ -1,5 +1,6 @@
 package org.saucistophe.math;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
@@ -19,8 +20,7 @@ import java.util.logging.Logger;
  */
 public class OpenSimplexNoise
 {
-	private static final Logger LOG = Logger.getLogger(OpenSimplexNoise.class.getName());
-	
+
 	private static final double STRETCH_CONSTANT_2D = -0.211324865405187;    //(1/Math.sqrt(2+1)-1)/2;
 	private static final double SQUISH_CONSTANT_2D = 0.366025403784439;      //(Math.sqrt(2+1)-1)/2;
 	private static final double STRETCH_CONSTANT_3D = -1.0 / 6;              //(1/Math.sqrt(3+1)-1)/3;
@@ -36,6 +36,16 @@ public class OpenSimplexNoise
 
 	private short[] perm;
 	private short[] permGradIndex3D;
+
+	// For stats purposes.
+	private double minGeneratedValue = 0;
+	private double maxGeneratedValue = 0;
+	private double sumOfGeneratedValues = 0;
+	private long numberOfGeneratedValues = 0;
+	
+	// Adjusting values.
+	public double offset = 0.;
+	public double range = 1.;
 
 	public OpenSimplexNoise()
 	{
@@ -893,8 +903,18 @@ public class OpenSimplexNoise
 			attn_ext1 *= attn_ext1;
 			value += attn_ext1 * attn_ext1 * extrapolate(xsv_ext1, ysv_ext1, zsv_ext1, dx_ext1, dy_ext1, dz_ext1);
 		}
+
 		
 		value = value / NORM_CONSTANT_3D;
+
+		// Adjust the value according to the range and offset.
+		value = value * range + offset;
+		
+		// Store the min, max and average value for stats purposes.				 
+		minGeneratedValue = Math.min(minGeneratedValue, value);
+		maxGeneratedValue = Math.max(maxGeneratedValue, value);
+		sumOfGeneratedValues += value;
+		numberOfGeneratedValues++;
 
 		return value;
 	}
