@@ -143,6 +143,8 @@ public class SettingsHandler
 			// Prepare a label text.
 			String labelText = fieldInfo.description().isEmpty() ? actualName : fieldInfo.description();
 			// Create an optional label for component that need it.
+			if(fieldInfo.requiresRestart())
+				labelText += "*";
 			JLabel label = new JLabel(labelText);
 
 			JComponent editionComponent;

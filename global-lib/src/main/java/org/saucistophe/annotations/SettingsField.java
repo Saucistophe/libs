@@ -44,4 +44,9 @@ public @interface SettingsField
 	 @return The min int value.
 	 */
 	public int maxValue() default Integer.MAX_VALUE;
+	
+	/**
+	 @return True if this settings field requires restarting to take into account.
+	 */
+	public boolean requiresRestart() default false;
 }
