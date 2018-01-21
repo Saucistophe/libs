@@ -65,7 +65,6 @@ public class ColorUtils
 
 		return rgba;
 	}
-	
 
 	/**
 	 Turns an HSVA color (as an array of floats) into a RGBA color int.
@@ -151,6 +150,7 @@ public class ColorUtils
 
 	/**
 	 Surimpose a color on another, according to their alphas.
+	 https://en.wikipedia.org/wiki/Alpha_compositing
 
 	 @param background The background HSVA color.
 	 @param foreground The foreground HSVA color.
@@ -158,24 +158,26 @@ public class ColorUtils
 	 */
 	public static float[] surimposeHsvaColors(float[] background, float[] foreground)
 	{
-		float result[] = new float[4];
+		// Skip transparent colors.
+		if(background[3] == 0 && foreground[3] == 0)
+			return background;
+		
+		int[] a = hsvaToRgba(foreground);
+		int[] b = hsvaToRgba(background);
+		int alphaA = a[3];
+		int alphaB = b[3];
 
-		float backgroundAlpha = background[3];
-		float foregroundAlpha = foreground[3];
+		int commonDivider = alphaA + alphaB * (255 - alphaA) / 255;
+		// Skip transparent colors again, if the alpha turner out to be too small to be greater than 0 as int.
+		if(commonDivider == 0 )
+			return background;
 
-		int backgroundRgb = Color.HSBtoRGB(background[0], background[1], background[2]);
-		int foregroundRgb = Color.HSBtoRGB(foreground[0], foreground[1], foreground[2]);
+		b[0] = (a[0] * alphaA + b[0] * alphaB * (255 - alphaA) / 255) / commonDivider;
+		b[1] = (a[1] * alphaA + b[1] * alphaB * (255 - alphaA) / 255) / commonDivider;
+		b[2] = (a[2] * alphaA + b[2] * alphaB * (255 - alphaA) / 255) / commonDivider;
+		b[3] = commonDivider;
 
-		int r = (int) (((backgroundRgb >> 16) & 255) * (1 - foregroundAlpha) * backgroundAlpha + ((foregroundRgb >> 16) & 255) * foregroundAlpha);
-		int g = (int) (((backgroundRgb >> 8) & 255) * (1 - foregroundAlpha) * backgroundAlpha + ((foregroundRgb >> 8) & 255) * foregroundAlpha);
-		int b = (int) (((backgroundRgb) & 255) * (1 - foregroundAlpha) * backgroundAlpha + ((foregroundRgb) & 255) * foregroundAlpha);
-
-		Color.RGBtoHSB(r, g, b, result);
-
-		float newAlpha = foregroundAlpha + backgroundAlpha * (1 - foregroundAlpha);
-		result[3] = newAlpha;
-
-		return result;
+		return ColorUtils.rgbaToHsva(b);
 	}
 
 	/**
