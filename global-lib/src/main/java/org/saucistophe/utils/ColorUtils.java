@@ -49,7 +49,7 @@ public class ColorUtils
 	 Note that the alpha value is optionnal; in which case a HSV value will turn to RGB.
 
 	 @param hsva The HSVA color array, with each float 0-1.
-	 @return The RGBA color.
+	 @return The RGBA color, as 0-255 int values.
 	 */
 	public static int[] hsvaToRgba(float[] hsva)
 	{
@@ -65,6 +65,7 @@ public class ColorUtils
 
 		return rgba;
 	}
+	
 
 	/**
 	 Turns an HSVA color (as an array of floats) into a RGBA color int.
