@@ -12,6 +12,34 @@ import org.saucistophe.math.MathUtils;
 public class ColorUtils
 {
 	/**
+	 A HSVA channel type to refer to its various values.
+	 */
+	public enum HsvaChannelType
+	{
+		HUE, SATURATION, VALUE, ALPHA, ALPHA_TIMES_VALUE;
+	};
+
+	/**
+	Returns a value extracted from the input volor, that corresponds to the selected channel.
+	@param hsvaColor The color to get a value from.
+	@param channelType The desired channel.
+	@return The extracted value.
+	*/
+	public static float getValueFromChannel(float[] hsvaColor, HsvaChannelType channelType)
+	{
+		if(channelType.ordinal() <= 3)
+		 return hsvaColor[channelType.ordinal()];
+		
+		switch(channelType)
+		{
+			case ALPHA_TIMES_VALUE:
+				return hsvaColor[2] * hsvaColor[3];
+			default:
+				throw new IllegalArgumentException("Unknown value for channel type " + channelType);
+		}
+	}
+	
+	/**
 	 Transforms an ARGB value to a Color.
 
 	 @param argb The ARGB value to transform.
