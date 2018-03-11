@@ -70,7 +70,7 @@ public class ColorConsoleHandler extends ConsoleHandler
 					pathElements[i] = pathElements[i].substring(0, 1);
 				
 
-				// I don't like spaces between class and metthod. I prefer ::.
+				// I don't like spaces between class and method. I prefer ::.
 				record.setSourceMethodName(String.join("::", String.join(".",pathElements), record.getSourceMethodName()));
 				record.setSourceClassName(null);
 				
