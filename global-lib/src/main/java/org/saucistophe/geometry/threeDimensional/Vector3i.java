@@ -242,16 +242,27 @@ public class Vector3i implements Cloneable
 
 	public Vector3i add(int offset)
 	{
-		return new Vector3i(x + offset, y + offset, z + offset);
+		return new Vector3i(this).addLocal(offset);
+	}
+
+	public Vector3i add(Vector3i offset)
+	{
+		return new Vector3i(this).addLocal(offset);
+	}
+		
+	public Vector3i add(int i, int j, int k)
+	{
+		return new Vector3i(this).addLocal(i,j,k);
 	}
 
 	public Vector3i addLocal(int offset)
 	{
-		x += offset;
-		y += offset;
-		z += offset;
-
-		return this;
+		return addLocal(offset,offset,offset);
+	}
+	
+	public Vector3i addLocal(Vector3i offset)
+	{
+		return addLocal(offset.x,offset.y,offset.z);
 	}
 
 	public Vector3i addLocal(int i, int j, int k)
@@ -262,7 +273,54 @@ public class Vector3i implements Cloneable
 
 		return this;
 	}
+	
+	public Vector3i subtract(int offset)
+	{
+		return new Vector3i(this).subtractLocal(offset);
+	}
 
+	public Vector3i subtract(Vector3i offset)
+	{
+		return new Vector3i(this).subtractLocal(offset);
+	}
+		
+	public Vector3i subtract(int i, int j, int k)
+	{
+		return new Vector3i(this).subtractLocal(i,j,k);
+	}
+
+	public Vector3i subtractLocal(int offset)
+	{
+		return subtractLocal(offset,offset,offset);
+	}
+	
+	public Vector3i subtractLocal(Vector3i offset)
+	{
+		return subtractLocal(offset.x,offset.y,offset.z);
+	}
+
+	public Vector3i subtractLocal(int i, int j, int k)
+	{
+		x -= i;
+		y -= j;
+		z -= k;
+
+		return this;
+	}
+
+	public Vector3i multiply(int offset)
+	{
+		return new Vector3i(this).multiplyLocal(offset);
+	}
+		
+	public Vector3i multiplyLocal(int offset)
+	{
+		x *= offset;
+		y *= offset;
+		z *= offset;
+		return this;
+	}
+		
 	/**
 	 Replace all occurrences of i by newVertex, in a new vector.
 
