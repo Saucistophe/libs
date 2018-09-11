@@ -138,10 +138,8 @@ public class SettingsHandler
 			}
 
 			// If the name wasn't set, get the field's declared name.
-			String actualName = fieldInfo.name().isEmpty() ? settingField.getName() : fieldInfo.name();
+			String labelText = fieldInfo.name().isEmpty() ? settingField.getName() : fieldInfo.name();
 
-			// Prepare a label text.
-			String labelText = fieldInfo.description().isEmpty() ? actualName : fieldInfo.description();
 			// Create an optional label for component that need it.
 			if(fieldInfo.requiresRestart())
 				labelText += "*";
