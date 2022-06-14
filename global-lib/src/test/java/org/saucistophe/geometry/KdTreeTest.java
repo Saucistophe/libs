@@ -1,10 +1,11 @@
 package org.saucistophe.geometry;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.saucistophe.geometry.threeDimensional.Point3F;
 import org.saucistophe.geometry.twoDimensional.KdTreeNode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KdTreeTest
 {

@@ -1,10 +1,11 @@
 package org.saucistophe.math;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Test;
 
 public class MachineGunTest
 {
@@ -16,9 +17,8 @@ public class MachineGunTest
 		{
 			List<Integer> rep = MachineGunAlgorithm.bestRepartition(i);
 
-			Assert.assertNotNull(rep);
-			Assert.assertNotEquals(rep.size(), 0);
-
+			Assertions.assertNotNull(rep);
+			Assertions.assertNotEquals(rep.size(), 0);
 		}
 	}
 }

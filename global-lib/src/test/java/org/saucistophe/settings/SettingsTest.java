@@ -1,10 +1,11 @@
 package org.saucistophe.settings;
 
-import java.io.File;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.saucistophe.annotations.SettingsField;
 import org.saucistophe.stats.ImprovedRandom;
+
+import java.io.File;
 
 public class SettingsTest
 {
@@ -69,12 +70,12 @@ public class SettingsTest
 
 		// Reload, and ensure they are the same.
 		SettingsHandler.readFromFile();
-		Assert.assertEquals(originalIntValue, intValue);
-		Assert.assertEquals(originalLongValue, longValue);
-		Assert.assertEquals(originalEnumValue, enumValue);
-		Assert.assertEquals((double) originalDoubleValue, doubleValue, 0.01);
-		Assert.assertEquals(originalBooleanSettings1, booleanSettings1);
-		Assert.assertEquals(originalStringSettings2, stringSettings2);
+		Assertions.assertEquals(originalIntValue, intValue);
+		Assertions.assertEquals(originalLongValue, longValue);
+		Assertions.assertEquals(originalEnumValue, enumValue);
+		Assertions.assertEquals((double) originalDoubleValue, doubleValue, 0.01);
+		Assertions.assertEquals(originalBooleanSettings1, booleanSettings1);
+		Assertions.assertEquals(originalStringSettings2, stringSettings2);
 
 		clear();
 	}

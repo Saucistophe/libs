@@ -1,10 +1,25 @@
-dependencies
-{
-    compile 'com.itextpdf:itextpdf:+'
-    compile 'commons-io:commons-io:+'
-    compile 'org.apache.commons:commons-math3:+'
-    compile 'org.apache.commons:commons-imaging:+'
-    compile 'com.google.code.gson:gson:+'
-    compile 'org.apache.commons:commons-lang3:+'
-	compile 'org.reflections:reflections:+'
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.itextpdf:itextpdf:+'
+    implementation 'commons-io:commons-io:+'
+    implementation 'org.apache.commons:commons-math3:+'
+    implementation 'org.apache.commons:commons-imaging:+'
+    implementation 'com.google.code.gson:gson:+'
+    implementation 'org.apache.commons:commons-lang3:+'
+    implementation 'org.reflections:reflections:+'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
 }
