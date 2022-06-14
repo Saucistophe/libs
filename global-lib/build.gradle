@@ -1,5 +1,6 @@
 plugins {
     id 'application'
+    id 'maven-publish'
 }
 
 repositories {
@@ -22,4 +23,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.saucistophe'
+            artifactId = 'libs'
+            version = "0.1-SNAPSHOT"
+            from components.java
+        }
+    }
 }
