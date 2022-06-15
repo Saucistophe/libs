@@ -1,1 +1,7 @@
 /global-lib/build
+global-lib/gradle/
+global-lib/.gradle/
+
+.idea
+gradlew
+gradlew.bat
